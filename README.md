@@ -9,3 +9,5 @@ Hello to THE ODIN PROJECT!
 Still going strong on Nov 25th!
 
 Possible final edit made.
+
+The prediction above was not so accurate! - (15 days later)
