@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - abdul-ahad-apk-build
   workflow_dispatch:
 
 jobs:
@@ -16,8 +15,10 @@ jobs:
 
       - name: Restore offline website
         run: |
-          cat android-apk/website.xz.b64 android-apk/website.suffix.b64 | tr -d '\n\r ' | base64 -d | xz -d > android-apk/app/src/main/assets/index.html
+          tr -d '\n\r ' < android-apk/compact.xz.b64 | base64 -d | xz -d > android-apk/app/src/main/assets/index.html
+          tr -d '\n\r ' < android-apk/photo.b64 | base64 -d > android-apk/app/src/main/assets/photo.jpg
           test -s android-apk/app/src/main/assets/index.html
+          test -s android-apk/app/src/main/assets/photo.jpg
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -29,6 +30,11 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
+
+      - name: Install Android SDK packages
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Build APK
         run: gradle -p android-apk :app:assembleDebug
