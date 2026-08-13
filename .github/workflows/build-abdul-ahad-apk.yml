@@ -16,7 +16,7 @@ jobs:
 
       - name: Restore offline website
         run: |
-          base64 -d android-apk/website.xz.b64 | xz -d > android-apk/app/src/main/assets/index.html
+          cat android-apk/website.xz.b64 android-apk/website.suffix.b64 | tr -d '\n\r ' | base64 -d | xz -d > android-apk/app/src/main/assets/index.html
           test -s android-apk/app/src/main/assets/index.html
 
       - name: Set up Java
