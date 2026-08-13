@@ -3,6 +3,7 @@ name: Build Abdul Ahad APK
 on:
   push:
     branches:
+      - main
       - abdul-ahad-apk-build
   workflow_dispatch:
 
