@@ -18,7 +18,7 @@ jobs:
           mkdir -p android-apk/app/src/main/assets android-apk/app/src/main/res/drawable
           { head -c 9000 android-apk/compact.xz.b64; cat android-apk/compact.fix9.b64; tail -c +10001 android-apk/compact.xz.b64; } | tr -d '\n\r ' | base64 -d | xz -d > android-apk/app/src/main/assets/index.html
           tr -d '\n\r ' < android-apk/photo.b64 | base64 -d > android-apk/app/src/main/assets/photo.jpg
-          tr -d '\n\r ' < android-apk/icon.jpg.b64 | base64 -d > android-apk/app/src/main/res/drawable/app_icon.jpg
+          cp android-apk/app/src/main/assets/photo.jpg android-apk/app/src/main/res/drawable/app_icon.jpg
           test -s android-apk/app/src/main/assets/index.html
           test -s android-apk/app/src/main/assets/photo.jpg
           test -s android-apk/app/src/main/res/drawable/app_icon.jpg
@@ -76,7 +76,7 @@ jobs:
             release-output/app-release-aligned.apk
           rm release-output/app-release-aligned.apk
 
-      - name: Verify signature, identity and permissions
+      - name: Verify signature identity and permissions
         shell: bash
         run: |
           BT="$ANDROID_HOME/build-tools/35.0.0"
